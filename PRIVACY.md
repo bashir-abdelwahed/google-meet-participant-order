@@ -1,8 +1,8 @@
-# Privacy policy — Meet Speaking Order
+# Privacy policy — Google Meet Participant Order
 
 Effective date: October 4, 2026
 
-Meet Speaking Order is maintained by [bashir-abdelwahed](https://github.com/bashir-abdelwahed). Its purpose is to create a randomized speaking order from a Google Meet participant list.
+Google Meet Participant Order is maintained by [bashir-abdelwahed](https://github.com/bashir-abdelwahed). Its purpose is to create a randomized speaking order from a Google Meet participant list.
 
 ## Information used locally
 
@@ -28,4 +28,4 @@ These permissions are used only for the extension's speaking-order feature. User
 
 ## Contact and updates
 
-Questions about this policy can be raised through the [project's issue tracker](https://github.com/bashir-abdelwahed/google-meet-extension/issues). This policy will be updated when the extension's data practices change.
+Questions about this policy can be raised through the [project's issue tracker](https://github.com/bashir-abdelwahed/google-meet-participant-order/issues). This policy will be updated when the extension's data practices change.

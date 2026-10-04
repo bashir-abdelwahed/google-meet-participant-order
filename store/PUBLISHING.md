@@ -3,10 +3,10 @@
 ## Package and URLs
 
 - Build: `npm ci && npm run package`
-- Upload: `dist/meet-speaking-order-1.0.1.zip`
-- Homepage: https://github.com/bashir-abdelwahed/google-meet-extension
-- Support: https://github.com/bashir-abdelwahed/google-meet-extension/issues
-- Privacy policy: https://github.com/bashir-abdelwahed/google-meet-extension/blob/main/PRIVACY.md
+- Upload: `dist/google-meet-participant-order-1.0.2.zip`
+- Homepage: https://github.com/bashir-abdelwahed/google-meet-participant-order
+- Support: https://github.com/bashir-abdelwahed/google-meet-participant-order/issues
+- Privacy policy: https://github.com/bashir-abdelwahed/google-meet-participant-order/blob/main/PRIVACY.md
 - Language: English
 - Suggested category: Productivity / Workflow & Planning (choose the matching available category)
 - Distribution: free, public
@@ -22,7 +22,7 @@ The screenshot uses the actual popup markup with fictional sample names. To rege
 
 Give everyone a turn in Google Meet.
 
-Meet Speaking Order reads the participants in your current call, shuffles their names, and creates a numbered message you can copy into the meeting chat. Useful for standups, round-table discussions, check-ins, and team introductions.
+Google Meet Participant Order reads the participants in your current call, shuffles their names, and creates a numbered message you can copy into the meeting chat. Useful for standups, round-table discussions, check-ins, and team introductions.
 
 HOW IT WORKS
 1. Join a Google Meet call and click the extension.
@@ -66,7 +66,7 @@ Data disclosures: The extension locally handles participant display names and id
 
 1. Install the extension in Chrome.
 2. Join a Google Meet call with another participant, keeping the People panel closed initially. Normal Google Meet access is needed; there is no separate extension account or subscription.
-3. Click Meet Speaking Order in the toolbar. Keep the popup open while names load.
+3. Click Google Meet Participant Order in the toolbar. Keep the popup open while names load.
 4. Verify that both participants appear once in the numbered message. The People panel may briefly open and close.
 5. Click Shuffle again. The same participants remain; a random shuffle may occasionally produce the same order.
 6. Edit the message and click Copy message. Paste into a local text editor to verify the exact text without sending a meeting message.

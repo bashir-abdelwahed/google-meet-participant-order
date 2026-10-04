@@ -1,4 +1,4 @@
-# Meet Speaking Order
+# Google Meet Participant Order
 
 A small Chrome extension that reads the current Google Meet participants and gives you a shuffled, numbered message to copy into chat. No account, API key, server, build step, or paid service is needed.
 
@@ -7,7 +7,7 @@ A small Chrome extension that reads the current Google Meet participants and giv
 1. Download this repository using **Code → Download ZIP** and extract it, or clone it with Git.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and choose the extracted folder containing `manifest.json`.
-4. Use Chrome’s puzzle-piece Extensions menu to pin **Meet Speaking Order**.
+4. Use Chrome’s puzzle-piece Extensions menu to pin **Google Meet Participant Order**.
 
 ## Use
 
@@ -39,7 +39,7 @@ Names are processed locally in popup memory and discarded when it closes. There 
 
 The implementation uses Chrome’s [activeTab permission](https://developer.chrome.com/docs/extensions/develop/concepts/activeTab) and [Scripting API](https://developer.chrome.com/docs/extensions/reference/api/scripting). It does not request persistent access to websites.
 
-Read the [privacy policy](PRIVACY.md). For help, [open an issue](https://github.com/bashir-abdelwahed/google-meet-extension/issues). Do not include private participant names or meeting links in public issues.
+Read the [privacy policy](PRIVACY.md). For help, [open an issue](https://github.com/bashir-abdelwahed/google-meet-participant-order/issues). Do not include private participant names or meeting links in public issues.
 
 ## Development and verification
 
@@ -56,7 +56,7 @@ Version 1.0.1 was also verified in a live two-person Meet call on 2026-10-03, st
 
 ## Chrome Web Store package
 
-Run `npm run package` (requires Python 3). This tests the extension and creates `dist/meet-speaking-order-1.0.1.zip`. The archive includes only the manifest, popup, runtime JavaScript, and icons, with `manifest.json` at the archive root.
+Run `npm run package` (requires Python 3). This tests the extension and creates `dist/google-meet-participant-order-1.0.2.zip`. The archive includes only the manifest, popup, runtime JavaScript, and icons, with `manifest.json` at the archive root.
 
 The [publishing guide](store/PUBLISHING.md) contains the store description, permission explanations, reviewer instructions, and submission steps. A public source repository is not required by the Chrome Web Store; this repository is public so the implementation can be inspected.
 

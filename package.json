@@ -1,11 +1,13 @@
 {
-  "name": "meet-speaking-order",
-  "version": "1.0.1",
+  "name": "google-meet-participant-order",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "package": "npm test && python3 scripts/package.py"
   },
-  "devDependencies": { "jsdom": "^26.1.0" }
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
 }
