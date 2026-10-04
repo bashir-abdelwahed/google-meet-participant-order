@@ -11,6 +11,13 @@
 - Suggested category: Productivity / Workflow & Planning (choose the matching available category)
 - Distribution: free, public
 
+Prepared images:
+- Store icon: `icons/128.png`
+- Screenshot: `store/screenshot-1280x800.jpg`
+- Small promotional tile: `store/promo-440x280.jpg`
+
+The screenshot uses the actual popup markup with fictional sample names. To regenerate the image layouts, run `python3 scripts/store-preview.py`, serve the repository locally, and capture `store/preview.html` at 1280×800 and `store/promo.html` at 440×280. These previews are static artwork, not an alternate running extension.
+
 ## Store description
 
 Give everyone a turn in Google Meet.

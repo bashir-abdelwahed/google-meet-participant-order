@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Meet Speaking Order — store screenshot</title>
+<style>*{box-sizing:border-box}body{margin:0;width:1280px;height:800px;background:#eaf0e4;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18332e;overflow:hidden}main{height:100%;display:flex;align-items:center;gap:95px;padding:65px 105px}.copy{width:460px}.label{font-size:13px;letter-spacing:2px;font-weight:650;color:#54704e}h1{font-size:66px;line-height:1.06;letter-spacing:-3px;margin:24px 0}p{font-size:21px;line-height:1.5;color:#5d705c}.steps{font-size:17px;line-height:2.1;margin:30px 0;color:#284d38}.note{font-size:12px;margin-top:38px}iframe{width:392px;height:650px;border:1px solid #d1dcc9;border-radius:18px;box-shadow:0 22px 55px #29422720;background:#f6f7f2;flex-shrink:0}</style>
+<main><section class="copy"><div class="label">MEET SPEAKING ORDER</div><h1>A turn for<br>everyone.</h1><p>Shuffle your Google Meet participants<br>into a ready-to-copy speaking order.</p><div class="steps">01 &nbsp; Open the extension<br>02 &nbsp; Review or reshuffle<br>03 &nbsp; Copy and paste into chat</div><p class="note">Local processing · No tracking · Example names shown</p></section><iframe title="Extension popup preview" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;&lt;base href=&quot;../&quot;&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;Meet Speaking Order&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;popup.css&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;div class=&quot;brand-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M4 7h3c4 0 6 10 10 10h3M17 14l3 3-3 3M4 17h3c1.3 0 2.4-1 3.5-2.5M13.5 9.5C14.6 8 15.7 7 17 7h3M17 4l3 3-3 3&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;&lt;/div&gt;
+      &lt;div&gt;&lt;span class=&quot;eyebrow&quot;&gt;FOR GOOGLE MEET&lt;/span&gt;&lt;h1&gt;Speaking order&lt;/h1&gt;&lt;/div&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+      &lt;p class=&quot;intro&quot;&gt;A little shuffle. A turn for everyone.&lt;/p&gt;
+      &lt;div class=&quot;toolbar&quot;&gt;&lt;span id=&quot;count&quot;&gt;6 participants&lt;/span&gt;&lt;button id=&quot;refresh&quot; class=&quot;text-button&quot; type=&quot;button&quot;&gt;↻ Refresh&lt;/button&gt;&lt;/div&gt;
+      &lt;p id=&quot;status&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;Your order is ready. Copy it into the meeting chat.&lt;/p&gt;
+      &lt;p id=&quot;warning&quot; class=&quot;warning&quot; hidden&gt;&lt;/p&gt;
+      &lt;section class=&quot;message-card&quot; aria-labelledby=&quot;message-label&quot;&gt;
+        &lt;div class=&quot;card-heading&quot;&gt;&lt;label id=&quot;message-label&quot; for=&quot;message&quot;&gt;YOUR MESSAGE&lt;/label&gt;&lt;span class=&quot;tag&quot;&gt;Ready for chat&lt;/span&gt;&lt;/div&gt;
+        &lt;textarea id=&quot;message&quot; spellcheck=&quot;false&quot; placeholder=&quot;Your randomized speaking order will appear here.&quot; aria-describedby=&quot;message-help&quot;&gt;Speaking order:
+1. Alex Chen
+2. Priya Sharma
+3. Sam Taylor
+4. Morgan Lee
+5. Noah Martin
+6. Jamie Wilson
+
+Please take your turn in this order.&lt;/textarea&gt;
+      &lt;/section&gt;
+      &lt;p id=&quot;message-help&quot; class=&quot;hint&quot;&gt;Edit the message if you like, then paste it into Meet chat.&lt;/p&gt;
+      &lt;div class=&quot;actions&quot;&gt;&lt;button id=&quot;shuffle&quot; class=&quot;secondary&quot; type=&quot;button&quot;&gt;Shuffle again&lt;/button&gt;&lt;button id=&quot;copy&quot; class=&quot;primary&quot; type=&quot;button&quot;&gt;Copy message &lt;span aria-hidden=&quot;true&quot;&gt;↗&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;
+      &lt;details id=&quot;editor&quot;&gt;
+        &lt;summary&gt;Edit participants &lt;span aria-hidden=&quot;true&quot;&gt;+&lt;/span&gt;&lt;/summary&gt;
+        &lt;label for=&quot;names&quot;&gt;One name per line. Include yourself if you’re taking a turn.&lt;/label&gt;
+        &lt;textarea id=&quot;names&quot; rows=&quot;5&quot; placeholder=&quot;Alex Chen&amp;#10;Sam Taylor&amp;#10;Morgan Lee&quot;&gt;&lt;/textarea&gt;
+        &lt;button id=&quot;apply&quot; class=&quot;secondary&quot; type=&quot;button&quot;&gt;Use these names &amp; shuffle&lt;/button&gt;
+      &lt;/details&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;&lt;span class=&quot;privacy-dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Names stay in this popup. Nothing is stored.&lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+"></iframe></main></html>
