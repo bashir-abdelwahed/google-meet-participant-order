@@ -1,6 +1,9 @@
 import { isMeetUrl, shuffle, parseNames, formatOrder } from "./order.js";
 import { collectParticipants } from "./meet.js";
 
+import { roomKey, loadRooms, applyRooms } from "./room-roster.js";
+
+let meetTabId;
 const $ = id => document.getElementById(id);
 let names = [];
 let busy = false;
@@ -12,6 +15,7 @@ function warning(text = "") {
 }
 function syncControls() {
   $("refresh").disabled = busy;
+  $("rooms").disabled = busy || !meetTabId;
   $("shuffle").disabled = busy || names.length < 2;
   $("copy").disabled = busy || !$("message").value.trim();
   $("apply").disabled = busy;
@@ -40,7 +44,10 @@ async function refresh() {
     });
     const result = response?.result;
     if (!result || !Array.isArray(result.names)) throw new Error("Could not read this call. Refresh the Meet tab and try again.");
-    names = result.names;
+    meetTabId = tab.id;
+    $("rooms").disabled = false;
+    const rules = await loadRooms(roomKey(tab.id, tab.url));
+    names = rules && result.participants ? applyRooms(result.participants, rules) : result.names;
     $("names").value = names.join("\n");
     generate();
     warning(result.warning);
@@ -84,3 +91,7 @@ $("copy").addEventListener("click", async () => {
 });
 
 refresh();
+
+$("rooms").addEventListener("click", () => {
+  if (meetTabId) chrome.tabs.create({ url: chrome.runtime.getURL(`rooms.html?tab=${meetTabId}`) });
+});

@@ -39,7 +39,7 @@ test("manual entries and the message preserve Unicode and namesakes", () => {
 test("extension manifest assets exist and permissions stay minimal", async () => {
   const manifest = JSON.parse(await readFile(new URL("../manifest.json", import.meta.url)));
   assert.equal(manifest.manifest_version, 3);
-  assert.deepEqual(manifest.permissions, ["activeTab", "scripting", "clipboardWrite"]);
+  assert.deepEqual(manifest.permissions, ["activeTab", "scripting", "clipboardWrite", "storage", "identity"]);
   assert.equal(manifest.host_permissions, undefined);
   for (const path of [manifest.action.default_popup, ...Object.values(manifest.icons)]) {
     assert.ok((await readFile(new URL(`../${path}`, import.meta.url))).length);

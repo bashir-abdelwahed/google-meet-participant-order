@@ -133,7 +133,7 @@ export async function collectParticipants() {
     if ([...participants.values()].some(name => /^(you|vous|du|tú|tu|você)$/i.test(name))) {
       warnings.push("Replace “You” with your name so the shared order is clear.");
     }
-    return { names: [...participants.values()], warning: warnings.join(" ") };
+    return { names: [...participants.values()], participants: [...participants].map(([id, name]) => ({ id, name })), warning: warnings.join(" ") };
   } finally {
     if (scroller?.isConnected) scroller.scrollTop = originalScroll;
     // Close only the People panel we opened, and only if it is still visible.

@@ -1,13 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Google Meet Participant Order",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Turn your Google Meet participant list into a random, ready-to-copy speaking order.",
-  "minimum_chrome_version": "93",
+  "minimum_chrome_version": "106",
   "permissions": [
     "activeTab",
     "scripting",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage",
+    "identity"
   ],
   "action": {
     "default_title": "Generate a speaking order",
@@ -24,5 +26,8 @@
     "32": "icons/32.png",
     "48": "icons/48.png",
     "128": "icons/128.png"
-  }
+  },
+  "optional_host_permissions": [
+    "https://www.googleapis.com/*"
+  ]
 }

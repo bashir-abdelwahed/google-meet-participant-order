@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { JSDOM } from "jsdom";
+import * as rooms from "../room-roster.js";
 import * as order from "../order.js";
 import { collectParticipants } from "../meet.js";
 
@@ -9,15 +10,16 @@ const html = await readFile(new URL("../popup.html", import.meta.url), "utf8");
 const script = (await readFile(new URL("../popup.js", import.meta.url), "utf8")).replace(/^import .*;\n/gm, "");
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
-async function popup({ url = "https://meet.google.com/abc-defg-hij", names = ["Alex", "Zoë", "李雷"], rejectClipboard = false } = {}) {
+async function popup({ url = "https://meet.google.com/abc-defg-hij", names = ["Alex", "Zoë", "李雷"], rejectClipboard = false, rules = null } = {}) {
   const dom = new JSDOM(html, { runScripts: "outside-only" });
   const window = dom.window;
   let copied;
   let injections = 0;
-  Object.assign(window, order, { collectParticipants });
+  Object.assign(window, order, rooms, { collectParticipants, loadRooms: key => rooms.loadRooms(key, window.chrome.storage.session) });
   window.chrome = {
+    storage: { session: { get: async key => rules ? { [key]: { ...rules, updatedAt: Date.now() } } : {} } },
     tabs: { query: async () => [{ id: 1, url }] },
-    scripting: { executeScript: async () => { injections++; return [{ result: { names, warning: "" } }]; } },
+    scripting: { executeScript: async () => { injections++; return [{ result: { names, participants: names.map((name, index) => ({ id: String(index), name })), warning: "" } }]; } },
   };
   Object.defineProperty(window.navigator, "clipboard", { value: {
     writeText: async text => { if (rejectClipboard) throw new Error("Denied"); copied = text; },
@@ -75,4 +77,17 @@ test("a failed refresh preserves the previous message and explains it is stale",
   assert.equal(f.$("copy").disabled, false);
   assert.match(f.$("status").textContent, /not been refreshed/);
   f.dom.window.close();
+});
+
+test("room choices survive reopening and Refresh without adding the shared account", async () => {
+  const options = { names: ["Room", "Remote"], rules: { replacements: { "0": ["Alex", "Sam"] }, extra: [] } };
+  const f = await popup(options);
+  assert.match(f.$("count").textContent, /3 participants/);
+  assert.doesNotMatch(f.$("message").value, /Room/);
+  f.$("refresh").click(); await tick();
+  assert.match(f.$("count").textContent, /3 participants/);
+  f.dom.window.close();
+  const reopened = await popup(options);
+  assert.match(reopened.$("message").value, /Sam/);
+  reopened.dom.window.close();
 });

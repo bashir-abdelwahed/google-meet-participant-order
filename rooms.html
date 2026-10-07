@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>People sharing a room — Google Meet Participant Order</title><link rel="stylesheet" href="popup.css"><script type="module" src="rooms.js"></script></head>
+<body class="room-page"><main>
+<h1>People sharing a room</h1>
+<p>Meet sees accounts, not everyone sitting together. Replace a shared account with the people who will take a turn.</p>
+<p id="room-status" role="status" aria-live="polite">Reading your meeting…</p>
+<section class="message-card">
+<label for="account">Shared account in the call</label><select id="account" disabled></select>
+<label for="room-names">People present, one name per line</label>
+<p class="hint">Include the account owner if they are present. These names replace the account’s single entry.</p>
+<textarea id="room-names" rows="6" placeholder="Alex Chen&#10;Sam Taylor"></textarea>
+<div class="actions"><button id="save-room" class="primary" disabled>Save these people</button><button id="clear-room" class="secondary" disabled>Reset this account</button></div>
+</section>
+<details><summary>Suggest names from Google Calendar</summary>
+<p>Connect to read events on your primary calendar near the current time and match their Meet link. Invitees are suggestions: select only people actually in the room.</p>
+<button id="connect" class="secondary">Connect Calendar & find meeting</button>
+<button id="disconnect" class="text-button">Disconnect Calendar</button>
+<p id="calendar-status" role="status" aria-live="polite"></p>
+<label for="event">Matching meeting</label><select id="event" hidden></select>
+<div id="invitees"></div><button id="use-invitees" class="secondary" disabled>Add selected names to room</button>
+</details>
+<p class="hint">After saving, return to your Meet tab and reopen the extension. Room choices last for this browser session, up to six hours. Refresh preserves them; Reset removes them. People whose account leaves the call are omitted. “Add people without replacing an account” entries stay until you reset them.</p>
+<a href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">Manage Google account access</a>
+</main></body></html>

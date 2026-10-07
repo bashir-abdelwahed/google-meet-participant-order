@@ -41,3 +41,19 @@ details label { display: block; font-size: 11px; color: #69766b; line-height: 1.
 #apply { padding: 8px 12px; font-size: 12px; }
 footer { padding: 13px 24px; border-top: 1px solid #e1e6dc; color: #7b8678; font-size: 10px; display: flex; align-items: center; gap: 6px; }
 .privacy-dot { width: 5px; height: 5px; border-radius: 50%; background: #8faa72; }
+
+.room-link { width:100%; margin-top:12px; }
+.room-page { width:auto; max-width:680px; margin:30px auto; padding:0 20px; }
+.room-page main { padding:20px; }
+.room-page h1 { font-size:26px; }
+.room-page select { display:block; width:100%; margin:12px 0 18px; padding:10px; border:1px solid #b7c4bb; border-radius:8px; background:white; }
+.room-page textarea { width:100%; box-sizing:border-box; min-height:130px; }
+.room-page .message-card { padding:18px; }
+.room-page details { margin-top:22px; }
+.invitee { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:center; margin:14px 0; }
+.invitee input[type=text] { grid-column:2; min-width:0; padding:8px; border:1px solid #b7c4bb; border-radius:6px; }
+.invitee span { overflow-wrap:anywhere; }
+
+[hidden] { display:none !important; }
+.room-link, .room-page .secondary { padding:10px 12px; }
+.room-page textarea { border:1px solid #b7c4bb; border-radius:8px; padding:10px; }
