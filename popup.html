@@ -23,6 +23,17 @@
       </section>
       <p id="message-help" class="hint">Edit the message if you like, then paste it into Meet chat.</p>
       <div class="actions"><button id="shuffle" class="secondary" type="button" disabled>Shuffle again</button><button id="copy" class="primary" type="button" disabled>Copy message <span aria-hidden="true">↗</span></button></div>
+      <details id="shared">
+        <summary>People sharing an account <span aria-hidden="true">+</span></summary>
+        <p class="hint">Read invitees from Meet, then select who is actually present in the room.</p>
+        <button id="read-invited" class="secondary" type="button">Read Meet’s invited list</button>
+        <p id="invited-status" role="status" aria-live="polite"></p>
+        <div id="invitees"></div>
+        <label for="replace-account">Shared account to replace</label>
+        <select id="replace-account"><option value="">Add names without replacing an account</option></select>
+        <button id="add-invited" class="secondary" type="button" disabled>Use selected people & shuffle</button>
+        <p class="hint">Include the account owner if they’re taking a turn. Review names for duplicates. Changes last until Refresh or this popup closes.</p>
+      </details>
       <details id="editor">
         <summary>Edit participants <span aria-hidden="true">+</span></summary>
         <label for="names">One name per line. Include yourself if you’re taking a turn.</label>

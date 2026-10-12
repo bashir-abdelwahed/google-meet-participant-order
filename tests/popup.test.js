@@ -3,21 +3,22 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { JSDOM } from "jsdom";
 import * as order from "../order.js";
+import { collectInvitees } from "../invitees.js";
 import { collectParticipants } from "../meet.js";
 
 const html = await readFile(new URL("../popup.html", import.meta.url), "utf8");
 const script = (await readFile(new URL("../popup.js", import.meta.url), "utf8")).replace(/^import .*;\n/gm, "");
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
-async function popup({ url = "https://meet.google.com/abc-defg-hij", names = ["Alex", "Zoë", "李雷"], rejectClipboard = false } = {}) {
+async function popup({ url = "https://meet.google.com/abc-defg-hij", names = ["Alex", "Zoë", "李雷"], rejectClipboard = false, invitees = [] } = {}) {
   const dom = new JSDOM(html, { runScripts: "outside-only" });
   const window = dom.window;
   let copied;
   let injections = 0;
-  Object.assign(window, order, { collectParticipants });
+  Object.assign(window, order, { collectParticipants, collectInvitees });
   window.chrome = {
     tabs: { query: async () => [{ id: 1, url }] },
-    scripting: { executeScript: async () => { injections++; return [{ result: { names, warning: "" } }]; } },
+    scripting: { executeScript: async ({ func }) => { injections++; return [{ result: func === collectInvitees ? { invitees, warning: "Confirm who is present." } : { names, warning: "" } }]; } },
   };
   Object.defineProperty(window.navigator, "clipboard", { value: {
     writeText: async text => { if (rejectClipboard) throw new Error("Denied"); copied = text; },
@@ -29,7 +30,7 @@ async function popup({ url = "https://meet.google.com/abc-defg-hij", names = ["A
 
 test("opening generates a message and Copy uses the exact edited message", async () => {
   const f = await popup();
-  assert.equal(f.injections(), 1);
+  assert.equal(f.injections(), 2);
   assert.match(f.$("count").textContent, /3 participants/);
   assert.equal(f.$("copy").disabled, false);
   f.$("message").value = "Our custom turn order:\n1. Zoë\n2. 李雷\n3. Alex";
@@ -74,5 +75,27 @@ test("a failed refresh preserves the previous message and explains it is stale",
   assert.equal(f.$("message").value, previous);
   assert.equal(f.$("copy").disabled, false);
   assert.match(f.$("status").textContent, /not been refreshed/);
+  f.dom.window.close();
+});
+
+test("invited people require selection and can replace a shared account without duplicate insertion", async () => {
+  const f = await popup({ names: ["Room account", "Remote"], invitees: [{ id:"a", name:"Alex" }, { id:"b", name:"Sam" }] });
+  f.$("read-invited").click(); await tick();
+  assert.equal(f.$("count").textContent, "2 participants");
+  assert.equal(f.$("add-invited").disabled, true);
+  for (const input of f.$("invitees").querySelectorAll("input")) { input.checked = true; input.dispatchEvent(new f.window.Event("change")); }
+  f.$("replace-account").value = "0"; f.$("add-invited").click();
+  assert.equal(f.$("names").value, "Alex\nSam\nRemote");
+  assert.doesNotMatch(f.$("message").value, /Room account/);
+  assert.equal(f.$("add-invited").disabled, true);
+  f.dom.window.close();
+});
+test("invite failures preserve the current edited order", async () => {
+  const f = await popup(); const previous = f.$("message").value;
+  f.window.chrome.scripting.executeScript = async () => { throw new Error("Panel unavailable"); };
+  f.$("read-invited").click(); await tick();
+  assert.equal(f.$("message").value, previous);
+  assert.match(f.$("invited-status").textContent, /Panel unavailable/);
+  assert.equal(f.$("copy").disabled, false);
   f.dom.window.close();
 });

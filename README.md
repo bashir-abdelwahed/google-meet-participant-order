@@ -20,6 +20,18 @@ You can edit the message directly. Expand **Edit participants** to add, remove, 
 
 **Refresh** re-reads the current call and creates a new order. Reopening the popup starts fresh. The extension provides copyable text; it does not post messages automatically.
 
+## People sharing an account
+
+1. Open the extension in a Meet call and expand **People sharing an account**.
+2. Opening or refreshing reads both **Contributors** and **Also invited**. Contributors form the initial order; invitees appear as unchecked suggestions. Use **Read Meet’s invited list** to retry. Keep the popup open while the People panel loads.
+3. Select invited people who are actually present in the room. Invitees are suggestions, not proof of attendance.
+4. Choose the shared account under **Shared account to replace**, then click **Use selected people & shuffle**. Include the account owner if they are taking a turn. Alternatively, leave **Add names without replacing an account** selected to add extra speakers.
+5. Review the order for duplicates, correct names through **Edit participants**, then copy the message.
+
+This reads the **Invited** / **Not in call** section directly from Meet. It needs no Google OAuth, Calendar API, extra permission, storage, or server. The extension tries to expand the list and scroll through it, then restores the panel state. Meet’s markup and labels can vary; open and expand that section manually and clear its search if detection fails. People not on the invitation can be added manually. The list can be incomplete when Meet does not expose readable names or identifiers, especially in virtualized lists with namesakes.
+
+Shared-account edits last only while this popup stays open. **Refresh** or reopening returns to the detected in-call roster. Live invitee extraction still needs testing against your Meet layout; the automated checks use simulated DOM fixtures.
+
 ## Limits and troubleshooting
 
 - Google Meet has no stable public participant-list interface available to a basic Chrome extension. This extension reads its page, and future Meet layout changes can require selector updates in `meet.js`.

@@ -1,14 +1,14 @@
 # Privacy policy — Google Meet Participant Order
 
-Effective date: October 4, 2026
+Effective date: October 12, 2026
 
 Google Meet Participant Order is maintained by [bashir-abdelwahed](https://github.com/bashir-abdelwahed). Its purpose is to create a randomized speaking order from a Google Meet participant list.
 
 ## Information used locally
 
-When you open the extension, it checks the active tab's URL to determine whether it is a Google Meet call. In a call, it reads participant display names and participant identifiers from the Meet page, using the identifiers to avoid listing the same participant twice. It may open and scroll the People panel to find participants outside the visible portion of the list.
+When you open the extension, it checks the active tab's URL to determine whether it is a Google Meet call. In a call, it reads participant display names and participant identifiers from the Meet page, using the identifiers to avoid listing the same participant twice. It may open and scroll the People panel to find participants outside the visible portion of the list. When you click Read Meet’s invited list, it also reads invited display names and identifiers exposed in Meet’s Invited or Not in call section. You choose which invited people to include or use to replace a shared account. Invitations are not treated as proof of attendance. This uses only the Meet page and does not authenticate with Google Calendar or call its API.
 
-Participant names, identifiers, the generated message, and any names or message text you enter are processed temporarily in browser memory for this feature. They are not sent to the developer or to a server. The extension does not read or record meeting audio, video, or chat history, and it does not access your Google account credentials.
+Participant and invited display names, identifiers, the generated message, and any names or message text you enter are processed temporarily in browser memory for this feature. They are not sent to the developer or to a server. The extension does not read or record meeting audio, video, or chat history, and it does not access your Google account credentials.
 
 ## Storage and sharing
 

@@ -5,7 +5,7 @@ import zipfile
 
 root = Path(__file__).resolve().parent.parent
 manifest = json.loads((root / "manifest.json").read_text())
-files = ["manifest.json", "popup.html", "popup.css", "popup.js", "meet.js", "order.js"]
+files = ["manifest.json", "popup.html", "popup.css", "popup.js", "meet.js", "order.js", "invitees.js"]
 files += sorted(set(manifest["icons"].values()) | set(manifest["action"]["default_icon"].values()))
 output = root / "dist" / f"google-meet-participant-order-{manifest['version']}.zip"
 output.parent.mkdir(exist_ok=True)

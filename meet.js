@@ -14,6 +14,7 @@ export async function collectParticipants() {
   let opened = false;
   let scroller;
   let originalScroll = 0;
+  const expandedContributors = [];
 
   function accessibleLabel(element) {
     // Meet's avatar-based People control uses aria-labelledby rather than
@@ -36,8 +37,21 @@ export async function collectParticipants() {
     ));
   }
 
+  function invitedRow(row) {
+    const invited = /^(invited|not in (?:the )?call|also invited|invités?|personnes invitées|absents?|eingeladen|nicht im anruf|invitados?|invitati|convidados?)(?:\s|\(|\d|$)/i;
+    const inCall = /^(contributors|in the meeting|in (?:the )?call|participants in (?:the )?call|dans l’appel|dans l'appel)(?:\s|\(|\d|$)/i;
+    for (let parent = row.parentElement; parent && parent !== document.body; parent = parent.parentElement) {
+      if (inCall.test(accessibleLabel(parent))) return false;
+      if (invited.test(accessibleLabel(parent))) return true;
+      const headings = all('button, [role="button"], [role="heading"], h2, h3, h4', parent);
+      const labels = headings.map(el => accessibleLabel(el) || clean(el.querySelector(".V6tdP")?.textContent || el.textContent));
+      if (labels.some(text => inCall.test(text))) return false;
+      if (labels.some(text => invited.test(text))) return true;
+    }
+    return false;
+  }
   function rows() {
-    return all(rowSelector).filter(visible);
+    return all(rowSelector).filter(visible).filter(row => !invitedRow(row));
   }
 
   function readName(row) {
@@ -73,7 +87,13 @@ export async function collectParticipants() {
       opened = true;
     }
     // Give Meet time to mount its People panel.
-    for (let i = 0; i < 20 && !rows().length; i++) await pause(150);
+    for (let i = 0; i < 20 && !rows().length; i++) {
+      const contributors = all('button[aria-controls], [role="button"][aria-controls]').filter(visible)
+        .find(el => el.getAttribute("aria-expanded") === "false" &&
+          /^(contributors|in (?:the )?call)(?:\s|\d|$)/i.test(accessibleLabel(el) || clean(el.querySelector(".V6tdP")?.textContent || el.textContent)));
+      if (contributors) { contributors.click(); expandedContributors.push(contributors); }
+      await pause(150);
+    }
 
     const firstRows = rows();
     const participants = new Map();
@@ -116,7 +136,7 @@ export async function collectParticipants() {
       if (!finished) warnings.push("The participant list took too long to load. Check for missing names, then refresh.");
     } else {
       // Best-effort fallback is deliberately labeled incomplete in the popup.
-      all('[data-participant-id]').filter(visible).forEach(remember);
+      all('[data-participant-id]').filter(visible).filter(row => !invitedRow(row)).forEach(remember);
       warnings.push("Could only read visible participants. Open Meet’s People panel and refresh, or add missing names below.");
     }
 
@@ -136,7 +156,10 @@ export async function collectParticipants() {
     return { names: [...participants.values()], warning: warnings.join(" ") };
   } finally {
     if (scroller?.isConnected) scroller.scrollTop = originalScroll;
+    for (const control of expandedContributors) {
+      if (control.isConnected && control.getAttribute("aria-expanded") === "true") control.click();
+    }
     // Close only the People panel we opened, and only if it is still visible.
-    if (opened && button?.isConnected && rows().length) button.click();
+    if (opened && button?.isConnected) button.click();
   }
 }
