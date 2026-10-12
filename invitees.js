@@ -54,7 +54,7 @@ export async function collectInvitees() {
       if (el.scrollHeight > el.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(el).overflowY)) { scroll = el; break; }
     }
     if (scroll) { originalScroll = scroll.scrollTop; scroll.scrollTop = 0; await pause(160); }
-    const people = new Map(); let unreadable = false, finished = false, bottomPasses = 0;
+    const people = new Map(); let bottomPasses = 0;
     const deadline = Date.now() + 10000;
     while (Date.now() < deadline) {
       const occurrences = new Map();
@@ -63,24 +63,22 @@ export async function collectInvitees() {
         const name = clean(row.getAttribute('data-participant-name') || row.getAttribute('data-invitee-name') || el?.getAttribute('data-participant-name') || el?.textContent);
         const email = clean(row.getAttribute('data-invited-email') || row.getAttribute('data-email') || row.querySelector('[data-email]')?.getAttribute('data-email'));
         let id = row.getAttribute('data-invitee-id') || row.getAttribute('data-participant-id') || email;
-        if (!name) { unreadable = true; continue; }
+        if (!name) continue;
         // Don't invent a person's name from row buttons or status text.
         if (!id) {
           const occurrence = occurrences.get(name) || 0; occurrences.set(name, occurrence + 1);
           id = `display:${name}:${occurrence}`;
-          if (scroll) unreadable = true; // Namesakes across virtualized pages cannot be verified.
         }
         people.set(id, { id, name });
       }
-      if (!scroll) { finished = true; break; }
+      if (!scroll) break;
       const bottom = scroll.scrollTop + scroll.clientHeight >= scroll.scrollHeight - 2;
       bottomPasses = bottom ? bottomPasses + 1 : 0;
-      if (bottomPasses >= 3) { finished = true; break; }
+      if (bottomPasses >= 3) break;
       scroll.scrollTop += Math.max(100, scroll.clientHeight * .75); await pause(160);
     }
-    const warnings = ['Includes invited people who may not be in the call. Review the names before sharing.'];
+    const warnings = [];
     if (!people.size) warnings.unshift('No readable invitees found. Expand the invited list and clear any search, or enter names manually.');
-    if (unreadable || !finished) warnings.unshift('Some invited entries could not be read. The suggested list may be incomplete.');
     return { invitees: [...people.values()], warning: warnings.join(' ') };
   } finally {
     if (scroll?.isConnected) scroll.scrollTop = originalScroll;

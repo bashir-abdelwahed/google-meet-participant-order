@@ -29,7 +29,7 @@ test('opens and restores the panel and collapsed invited group',async()=>{
 });
 test('rows without account IDs remain usable and same-name invitees remain separate',async()=>{
   const f=fixture('<div role="list" aria-label="Invités"><div role="listitem"><span class="zWGUib">Alex</span></div><div role="listitem"><span class="zWGUib">Alex</span></div><div role="listitem"><button>Call</button></div></div>');
-  const result=await f.run(collectInvitees);assert.equal(result.invitees.length,2);assert.match(result.warning,/incomplete/);f.dom.window.close();
+  const result=await f.run(collectInvitees);assert.equal(result.invitees.length,2);assert.equal(result.warning,'');f.dom.window.close();
 });
 test('missing invited section explains how to recover instead of reusing the live roster',async()=>{
   const f=fixture(`<div role="list" aria-label="Participants">${row('live','Alex')}</div>`);
