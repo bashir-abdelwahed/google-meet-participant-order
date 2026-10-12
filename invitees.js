@@ -78,7 +78,7 @@ export async function collectInvitees() {
       if (bottomPasses >= 3) { finished = true; break; }
       scroll.scrollTop += Math.max(100, scroll.clientHeight * .75); await pause(160);
     }
-    const warnings = ['Invited does not mean present. Select only people taking a turn, and check for missing names.'];
+    const warnings = ['Includes invited people who may not be in the call. Review the names before sharing.'];
     if (!people.size) warnings.unshift('No readable invitees found. Expand the invited list and clear any search, or enter names manually.');
     if (unreadable || !finished) warnings.unshift('Some invited entries could not be read. The suggested list may be incomplete.');
     return { invitees: [...people.values()], warning: warnings.join(' ') };

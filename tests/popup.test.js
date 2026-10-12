@@ -78,24 +78,29 @@ test("a failed refresh preserves the previous message and explains it is stale",
   f.dom.window.close();
 });
 
-test("invited people require selection and can replace a shared account without duplicate insertion", async () => {
-  const f = await popup({ names: ["Room account", "Remote"], invitees: [{ id:"a", name:"Alex" }, { id:"b", name:"Sam" }] });
-  f.$("read-invited").click(); await tick();
-  assert.equal(f.$("count").textContent, "2 participants");
-  assert.equal(f.$("add-invited").disabled, true);
-  for (const input of f.$("invitees").querySelectorAll("input")) { input.checked = true; input.dispatchEvent(new f.window.Event("change")); }
-  f.$("replace-account").value = "0"; f.$("add-invited").click();
-  assert.equal(f.$("names").value, "Alex\nSam\nRemote");
-  assert.doesNotMatch(f.$("message").value, /Room account/);
-  assert.equal(f.$("add-invited").disabled, true);
+test("invited names are included by default and toggling never accumulates duplicates", async () => {
+  const f = await popup({ names: ["Alex", "Remote"], invitees: [{ id:"a", name:"Alex" }, { id:"b", name:"Sam" }] });
+  assert.equal(f.$("include-invited").checked, true);
+  assert.equal(f.$("names").value, "Alex\nRemote\nAlex\nSam");
+  f.$("include-invited").click();
+  assert.equal(f.$("names").value, "Alex\nRemote");
+  f.$("include-invited").click();
+  assert.equal(f.$("names").value, "Alex\nRemote\nAlex\nSam");
+  f.$("refresh").click(); await tick();
+  assert.equal(f.$("count").textContent, "4 participants");
   f.dom.window.close();
 });
-test("invite failures preserve the current edited order", async () => {
-  const f = await popup(); const previous = f.$("message").value;
-  f.window.chrome.scripting.executeScript = async () => { throw new Error("Panel unavailable"); };
-  f.$("read-invited").click(); await tick();
-  assert.equal(f.$("message").value, previous);
-  assert.match(f.$("invited-status").textContent, /Panel unavailable/);
+test("invite read failure keeps contributors usable and warns about the partial order", async () => {
+  const f = await popup();
+  f.window.chrome.scripting.executeScript = async ({ func }) => {
+    if (func === collectInvitees) throw new Error("Unavailable");
+    return [{ result: { names: ["Remote"], warning: "" } }];
+  };
+  f.$("refresh").click(); await tick();
+  assert.equal(f.$("names").value, "Remote");
+  assert.match(f.$("warning").textContent, /Could not read Also invited/);
   assert.equal(f.$("copy").disabled, false);
+  f.$("include-invited").click();
+  assert.equal(f.$("warning").hidden, true);
   f.dom.window.close();
 });
